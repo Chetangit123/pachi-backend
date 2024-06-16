@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const { connectDB } = require('./src/config/dbConnection');
+// const { connectDB } = require('./src/config/dbConnection');
 require('dotenv').config();
-const Router = require('./src/routes/indexRouter')
+// const Router = require('./src/routes/indexRouter')
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.use('/api/v1', Router)
+// app.use('/api/v1', Router)
 
 app.get('/api/dummy', (req, res) => {
     res.json({
@@ -26,10 +26,10 @@ app.get('/api/dummy', (req, res) => {
 })
 
 const PORT = process.env.PORT || 3003
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
-}).catch(error => {
-    console.error('Failed to connect to MongoDB', error);
+// connectDB().then(() => {
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
+// }).catch(error => {
+//     console.error('Failed to connect to MongoDB', error);
+// });
