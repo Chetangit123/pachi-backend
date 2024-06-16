@@ -160,5 +160,15 @@ module.exports.changePassword = async (req, res) => {
 }
 
 module.exports.forgetPassword = async (req, res) => {
-
+    try {
+        const { email } = req.body;
+        let user = await User.findOne({ email });
+        if (!user) {
+            return notFound(res, "User")
+        }
+        const otp = generateOTP()
+        genericMail()
+    } catch (error) {
+        return catchError(res, error);
+    }
 }
