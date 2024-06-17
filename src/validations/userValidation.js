@@ -79,9 +79,21 @@ const changePasswordSchema = Joi.object({
     }),
 });
 
+const forgetPasswordSchema = Joi.object({
+    email: Joi.string().email().required().messages({
+        'string.base': 'Email should be a type of text',
+        'string.email': 'Please enter a valid email address',
+        'string.empty': 'Email cannot be an empty field',
+        'any.required': 'Email is a required field'
+    }).custom((value, helpers) => {
+        return value.toLowerCase();
+    })
+})
+
 module.exports = {
     userSignupSchema,
     userLoginSchema,
     editProgileSchema,
-    changePasswordSchema
+    changePasswordSchema,
+    forgetPasswordSchema
 };

@@ -2,7 +2,7 @@ const { catchError, successResponse, swrResponse, failureResponse, notFound } = 
 const bcrypt = require('bcrypt');
 const User = require("../models/user.model");
 const generateOTP = require("../utils/helpers");
-const { genericMail } = require("../utils/sendMail");
+const { genericMail, forgetPasswordMail } = require("../utils/sendMail");
 const { assignJwt } = require("../middlewares/jwtMiddleware");
 
 module.exports.createUser = async (req, res) => {
@@ -167,7 +167,10 @@ module.exports.forgetPassword = async (req, res) => {
             return notFound(res, "User")
         }
         const otp = generateOTP()
-        genericMail()
+        user.forgetPassOtp = otp;
+        user.save();
+        forgetPasswordMail(email, otp)
+        return successResponse(res, true, 200, "OTP sent successfully on your registered email address")
     } catch (error) {
         return catchError(res, error);
     }
