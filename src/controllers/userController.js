@@ -175,3 +175,24 @@ module.exports.forgetPassword = async (req, res) => {
         return catchError(res, error);
     }
 }
+
+module.exports.resetPassword = async (req, res) => {
+    try {
+        const { email, otp, password } = req.body;
+        let user = await User.findOne({ email });
+        if (!user) {
+            return notFound(res, "User")
+        }
+        if (user.forgetPassOtp != otp) {
+            return failureResponse(res, false, 400, "Invalid OTP")
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+        user.password = hashedPassword;
+        user.forgetPassOtp = null;
+        await user.save();
+        return successResponse(res, true, 200, "Password reset successfully")
+    } catch (error) {
+        return catchError(res, error);
+    }
+}

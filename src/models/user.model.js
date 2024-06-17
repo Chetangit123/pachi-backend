@@ -30,8 +30,7 @@ const userSchema = new Schema({
         required: true
     },
     forgetPassOtp: {
-        type: Number,
-        required: true
+        type: Number
     },
     isVerified: {
         type: Boolean,

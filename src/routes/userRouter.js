@@ -1,6 +1,6 @@
 const express = require("express");
 const { controller } = require("../controllers/indexController");
-const { userSignupSchema, userLoginSchema, editProgileSchema, changePasswordSchema, forgetPasswordSchema } = require("../validations/userValidation");
+const { userSignupSchema, userLoginSchema, editProgileSchema, changePasswordSchema, forgetPasswordSchema, resetPasswordSchema } = require("../validations/userValidation");
 const validate = require('../validations/validate');
 const { verifyUserToken } = require("../middlewares/jwtMiddleware");
 const { changePassword } = require("../controllers/userController");
@@ -13,5 +13,6 @@ router.get('/user-profile', verifyUserToken, controller.userController.userProfi
 router.put('/edit-user-profile', verifyUserToken, validate(editProgileSchema), controller.userController.editProfile)
 router.put('/change-password', verifyUserToken, validate(changePasswordSchema), controller.userController.changePassword)
 router.put('/forget-password', validate(forgetPasswordSchema), controller.userController.forgetPassword)
+router.put('/reset-password', validate(resetPasswordSchema), controller.userController.resetPassword)
 
 module.exports = router;

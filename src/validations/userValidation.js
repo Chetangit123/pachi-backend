@@ -90,10 +90,35 @@ const forgetPasswordSchema = Joi.object({
     })
 })
 
+const resetPasswordSchema = Joi.object({
+    email: Joi.string().email().required().messages({
+        'string.base': 'Email should be a type of text',
+        'string.email': 'Please enter a valid email address',
+        'string.empty': 'Email cannot be an empty field',
+        'any.required': 'Email is a required field'
+    }).custom((value, helpers) => {
+        return value.toLowerCase();
+    }),
+    password: Joi.string().min(6).required().messages({
+        'string.base': 'Password should be a type of text',
+        'string.empty': 'Password cannot be an empty field',
+        'string.min': 'Password should have a minimum length of {#limit}',
+        'any.required': 'Password is a required field'
+    }),
+    otp: Joi.string().length(4).pattern(/^[0-9]+$/).required().messages({
+        'string.base': 'OTP should be a type of text',
+        'string.empty': 'OTP cannot be an empty field',
+        'string.length': 'OTP should be exactly 4 digits',
+        'string.pattern.base': 'OTP should only contain numeric digits',
+        'any.required': 'OTP is a required field'
+    })
+});
+
 module.exports = {
     userSignupSchema,
     userLoginSchema,
     editProgileSchema,
     changePasswordSchema,
-    forgetPasswordSchema
+    forgetPasswordSchema,
+    resetPasswordSchema
 };
