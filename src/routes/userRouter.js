@@ -4,6 +4,7 @@ const { userSignupSchema, userLoginSchema, editProgileSchema, changePasswordSche
 const validate = require('../validations/validate');
 const { verifyUserToken } = require("../middlewares/jwtMiddleware");
 const { changePassword } = require("../controllers/userController");
+const { uploadProfile, uploadUserAvatar } = require("../utils/uploadImage");
 const router = express.Router();
 
 router.post('/create-user', validate(userSignupSchema), controller.userController.createUser)
@@ -14,5 +15,6 @@ router.put('/edit-user-profile', verifyUserToken, validate(editProgileSchema), c
 router.put('/change-password', verifyUserToken, validate(changePasswordSchema), controller.userController.changePassword)
 router.put('/forget-password', validate(forgetPasswordSchema), controller.userController.forgetPassword)
 router.put('/reset-password', validate(resetPasswordSchema), controller.userController.resetPassword)
+router.post('/upload-profile', uploadUserAvatar, controller.userController.uploadProfile)
 
 module.exports = router;

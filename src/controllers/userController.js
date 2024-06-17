@@ -196,3 +196,18 @@ module.exports.resetPassword = async (req, res) => {
         return catchError(res, error);
     }
 }
+
+module.exports.uploadProfile = async (req, res) => {
+    try {
+        const file = req.file
+        const fileName = file.filename
+        console.log(fileName, "22222222222")
+        if (!fileName) {
+            return failureResponse(res, false, 400, "Image not uploaded")
+        }
+        const path = `http://localhost:3003/profile/${fileName}`
+        return successResponse(res, true, 200, "Profile Uploaded Successfully", path)
+    } catch (error) {
+        return catchError(error)
+    }
+}
