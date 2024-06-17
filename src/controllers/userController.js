@@ -6,9 +6,9 @@ const { genericMail, forgetPasswordMail } = require("../utils/sendMail");
 const { assignJwt } = require("../middlewares/jwtMiddleware");
 
 module.exports.createUser = async (req, res) => {
-    let { name, email, password, mobile } = req.body
+    let { name, email, password, mobile, avatar } = req.body
     try {
-
+        avatar = avatar ? avatar : ''
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return successResponse(
@@ -27,7 +27,8 @@ module.exports.createUser = async (req, res) => {
             email,
             password: hashedPassword,
             mobile,
-            otp
+            otp,
+            avatar
         });
         delete (newUser.hashedPassword)
         const user = await newUser.save();
@@ -120,9 +121,9 @@ module.exports.userProfile = async (req, res) => {
 
 module.exports.editProfile = async (req, res) => {
     try {
-        const { name, mobile } = req.body;
+        const { name, mobile, avatar } = req.body;
         let userId = req.user._id;
-        let user = await User.findByIdAndUpdate(userId, { name, mobile }, { new: true });
+        let user = await User.findByIdAndUpdate(userId, { name, mobile, avatar }, { new: true });
         if (!user) {
             return notFound(res, 'User')
         }
@@ -130,7 +131,8 @@ module.exports.editProfile = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            mobile: user.mobile
+            mobile: user.mobile,
+            avatar: user.avatar
         })
         return successResponse(res, true, 200, "Profile updated successfully", userObject)
     } catch (error) {
@@ -205,7 +207,8 @@ module.exports.uploadProfile = async (req, res) => {
         if (!fileName) {
             return failureResponse(res, false, 400, "Image not uploaded")
         }
-        const path = `http://localhost:3003/profile/${fileName}`
+        // const path = `http://localhost:3003/profile/${fileName}`
+        const path = `https://pachi-backend.onrender.com/profile/${fileName}`
         return successResponse(res, true, 200, "Profile Uploaded Successfully", path)
     } catch (error) {
         return catchError(error)

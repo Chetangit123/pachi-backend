@@ -28,6 +28,7 @@ const userSignupSchema = Joi.object({
         'string.empty': 'Mobile cannot be an empty field',
         'any.required': 'Mobile is a required field'
     }),
+    avatar: Joi.string(),
     createdAt: Joi.date().default(() => new Date()).optional()
 });
 
@@ -61,7 +62,8 @@ const editProgileSchema = Joi.object({
         'string.pattern.base': 'Please enter a valid 10-digit mobile number',
         'string.empty': 'Mobile cannot be an empty field',
         'any.required': 'Mobile is a required field'
-    })
+    }),
+    avatar: Joi.string()
 });
 
 const changePasswordSchema = Joi.object({
