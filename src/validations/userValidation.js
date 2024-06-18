@@ -6,7 +6,7 @@ const userSignupSchema = Joi.object({
         'string.empty': 'Name cannot be an empty field',
         'string.min': 'Name should have a minimum length of {#limit}',
         'string.max': 'Name should have a maximum length of {#limit}',
-        'any.required': 'Name is a required field'
+        // 'any.required': 'Name is a required field'
     }),
     email: Joi.string().email().required().messages({
         'string.base': 'Email should be a type of text',
