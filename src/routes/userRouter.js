@@ -7,7 +7,7 @@ const { changePassword } = require("../controllers/userController");
 const { uploadProfile, uploadUserAvatar } = require("../utils/uploadImage");
 const router = express.Router();
 
-router.post('/create-user', validate(userSignupSchema), controller.userController.createUser)
+router.post('/create-user', controller.userController.createUser)
 router.post('/login-user', validate(userLoginSchema), controller.userController.userLogin)
 router.put('/verify-user', controller.userController.verifyUser)
 router.get('/user-profile', verifyUserToken, controller.userController.userProfile)
