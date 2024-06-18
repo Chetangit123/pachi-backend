@@ -7,6 +7,7 @@ const { assignJwt } = require("../middlewares/jwtMiddleware");
 
 module.exports.createUser = async (req, res) => {
     let { name, email, password, mobile, avatar } = req.body
+    console.log(req.body, "bodyyyyyyyyyy")
     try {
         avatar = avatar ? avatar : ''
         const existingUser = await User.findOne({ email });
